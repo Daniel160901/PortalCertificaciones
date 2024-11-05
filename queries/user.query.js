@@ -1,4 +1,5 @@
-import UserModel from "../models/user.model.js";
+import { InstitucionModel } from "../models/institucion.model.js";
+import { UserModel } from "../models/user.model.js";
 
 class userQueries {
 
@@ -29,12 +30,18 @@ class userQueries {
 
     async findAll (condition = {}){
         try {
-            const query = await UserModel.findAll({where: condition});
-            if(query){
+            const query = await UserModel.findAll({
+                where: condition, 
+                include: [ { model: InstitucionModel, as: 'nombre_inst'}]
+            });
+            if(query.length > 0){
                 return { ok: true, data: query};
+            } else {
+                return { ok: false, message: 'Hubo un problema en la petición.'}
             }
         } catch (e) {
-            console.log('Error al encontrar a todos los usuarios de la institucion: ' , condition);
+            console.log('Error al encontrar a todos los usuarios de la institucion', e);
+            return { ok: false, message: 'Error al encontrar a todos los usuarios'}
         }
     }
 
@@ -42,11 +49,28 @@ class userQueries {
         try {
             const query = await UserModel.findOne({where: condition});
             if (query){
-                return { ok: true, data: query }
+                return { ok: true, data: query };
+            } else {
+                return { ok: false, data: query};
             }
         } catch (e) {
             console.log('Error al encontrar al usuario.');
-            
+            return { ok: false, message: 'Ocurrió un error en el servidor'};
+        }
+    }
+
+    async updUser(id, datos){
+        try {
+            const user = await UserModel.findByPk(id);
+            if(user) {
+                await user.update(datos, { fields: Object.keys(datos) });
+                return user;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.log('Error en la actualizacion del usuario', error);
+            return null;
         }
     }
 }

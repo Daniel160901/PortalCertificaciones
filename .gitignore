@@ -25,10 +25,5 @@ Thumbs.db       # Windows
 ehthumbs.db     # Windows
 Desktop.ini     # Windows
 
-# Ignorar archivos de entorno
-.env
-.env.local
-.env.*.local
-
 # Ignorar archivos de test
 coverage/

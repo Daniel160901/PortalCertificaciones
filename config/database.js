@@ -27,8 +27,9 @@ export class Database {
             return { ok: true, message: 'Conexión a la base de datos realizada correctamente.'}
         }
         catch(e) {
-            return  {ok: false, message: 'No se pudo establecer conexión con la base de datos' + e }
+            return  {ok: false, message: 'No se pudo establecer conexión con la base de datos ' + e }
         }
     }
 
 }
+

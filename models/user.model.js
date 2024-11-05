@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { DatabaseConfig } from '../config/database.js';
+import { InstitucionModel } from './institucion.model.js';
 
 export class UserModel extends Model{}
 
@@ -49,7 +50,6 @@ export class UserModel extends Model{}
     },  {
         sequelize: DatabaseConfig,
         tableName: 'usuarios',
-        timestamps: true
+        timestamps: true,
     });
 
-    export default UserModel;

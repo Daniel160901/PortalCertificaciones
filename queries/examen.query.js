@@ -1,0 +1,76 @@
+import { ExamenModel } from "../models/examen.model.js";
+
+class ExamenQueries{
+
+    async store(examen){
+        try {
+            const query = await ExamenModel.create(examen);
+            if(query){
+                return { ok: true, data: query};
+            } else {
+                return { ok: false, data: null};
+            }
+        } catch (error) {
+            return { ok: false, data: null};
+        } 
+    }
+
+    async findAll(condition = {}){
+        try {
+            const query = await ExamenModel.findAll({ where: condition});
+            if (query.length>0){
+                return { ok: true, data: query };
+            } else {
+                return { ok: false, data: query};
+            }
+        } catch (error) {
+            console.log('No se pudo encontrar el certificado: ' + data.query);
+            return { ok: false, data: null, message: 'No se pudo encontrar el certificado: ' + condition};
+        }
+    }
+
+    async findOne(condition = {}){
+        try {
+            const query = await ExamenModel.findOne({ where: condition});
+            if (query){
+                return { ok: true, data: query };
+            } else {
+                return { ok: false, data: null};
+            }
+        } catch (error) {
+            console.log('No se pudo encontrar el examen:');
+            return { ok: false, data: null, message: 'No se pudo encontrar el examen'};
+        }
+    }
+
+    async delete (id){
+        try {
+            const query = await ExamenModel.destroy({where: { id_examen: id}});
+            if(query){
+                return { ok: true};
+            } else {
+                console.log('No se pudo eliminar el examen');
+                return { ok: false};
+            }
+        } catch (error) {
+            console.error('Error al eliminar el examen ', error);
+            return { ok: false, data: null, message: 'Error en la base de datos.'};
+        }
+    }
+
+    async update(id, datos){
+        try {
+            const query = await ExamenModel.findByPk(id);
+            if(query) {
+                await query.update(datos, { fields: Object.keys(datos) });
+                return { ok: true, data: query};
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.log('Error en la actualizacion del examen', error);
+            return null;
+        }
+    }
+}
+export const examenQueries = new ExamenQueries();

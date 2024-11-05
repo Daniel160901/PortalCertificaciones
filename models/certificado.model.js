@@ -1,5 +1,5 @@
 import { DataTypes, Model, NOW, Sequelize } from "sequelize";
-import { DatabaseConfig } from "../config/database";
+import { DatabaseConfig } from "../config/database.js";
 
 export class CertificadoModel extends Model{}
 
@@ -20,15 +20,14 @@ export class CertificadoModel extends Model{}
             defaultValue: Sequelize.NOW,
             allowNull: false,
         },
-        fecha_expiracion: {
+        fecha_expira: {
             type: DataTypes.DATEONLY,
             defaultValue: Sequelize.fn('DATE_ADD', Sequelize.fn('CURDATE'), Sequelize.literal('INTERVAL 1 YEAR')),
             allowNull: false
-        },
-        
+        }     
 
     },  {
         sequelize: DatabaseConfig,
-        tableName: 'certificado',
+        tableName: 'certificados',
         timestamps: false,
-    })
+    });
