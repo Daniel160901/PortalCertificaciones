@@ -1,6 +1,8 @@
 import { InstitucionModel } from "../models/institucion.model.js";
 import { UserModel } from "../models/user.model.js";
 
+const relacion = [ { model: InstitucionModel, as: 'nombre_inst'}];
+
 class userQueries {
 
     async store (user){
@@ -32,7 +34,7 @@ class userQueries {
         try {
             const query = await UserModel.findAll({
                 where: condition, 
-                include: [ { model: InstitucionModel, as: 'nombre_inst'}]
+                include: relacion
             });
             if(query.length > 0){
                 return { ok: true, data: query};
@@ -47,7 +49,7 @@ class userQueries {
 
     async findOne(condition={}){
         try {
-            const query = await UserModel.findOne({where: condition});
+            const query = await UserModel.findOne({where: condition, include: relacion});
             if (query){
                 return { ok: true, data: query };
             } else {

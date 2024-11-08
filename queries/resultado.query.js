@@ -1,4 +1,6 @@
+import { ExamenModel } from "../models/examen.model.js";
 import { ResultadoModel } from "../models/resultado.model.js";
+import { UserModel } from "../models/user.model.js";
 
 class ResultadoQueries{
 
@@ -8,17 +10,26 @@ class ResultadoQueries{
             if(query){
                 return { ok: true, data: query};
             } else {
-                return { ok: false, data: null}
+                return { ok: false, data: null};
             }
         } catch (error) {
-            console.log('Error al crear el resultado', error);
+            console.log('Error al crear el resultado');
             return{ok: false, data: null};
         }
     }
 
     async findAll(condition = {}){
         try {
-            const query = await ResultadoModel.findAll({where: condition});
+            const query = await ResultadoModel.findAll({where: condition, include: [
+                {
+                model: UserModel,
+                key: 'id_user'
+            },
+            {
+                model: ExamenModel,
+                key: 'id_examen'
+            }
+        ]});
             if(query.length>0){
                 return { ok: true, data: query };
             } else {
@@ -32,14 +43,26 @@ class ResultadoQueries{
 
     async findOne(condition = {}){
         try {
-            const query = await ResultadoModel.findOne({ where: condition});
+            console.log(condition);
+            
+            const query = await ResultadoModel.findOne({ where: condition, include: [
+                {
+                model: UserModel,
+                key: 'id_user'
+            },
+            {
+                model: ExamenModel,
+                key: 'id_examen'
+            }
+        ]});
             if (query){
+                
                 return { ok: true, data: query };
-            } else {
+            } else {                
                 return { ok: false, data: query};
             }
         } catch (error) {
-            console.log('No se pudo encontrar el resultado: ' + data.query);
+            console.log('No se pudo encontrar el resultado.', error);
             return { ok: false, data: null, message: 'No se pudo encontrar el resultado.'};
         }
     }

@@ -6,7 +6,7 @@ class ResultadoController {
     async create(req, res) {
         const body = req.body;
         const query = await resultadoQueries.store(body);
-        if (query) {
+        if (query.ok) {
             return res.status(200).json({ ok: true, data: query.data });
         } else {
             return res.status(400).json({ ok: false, message: 'No se pudo crear el resultado.' });
@@ -27,6 +27,8 @@ class ResultadoController {
     async findOne(req, res) {
         try {
             const condition = req.query;
+            console.log(condition);
+            
 
             const query = await resultadoQueries.findOne(condition);
 
@@ -36,7 +38,7 @@ class ResultadoController {
                 return res.status(403).json({ ok: false, message: 'No se pudo encontrar el resultado' });
             }
         } catch (error) {
-            console.log('Error al encontrar el resultado.', error);
+            console.log('Error al encontrar el resultado.');
             return res.status(500).json({ ok: false, message: 'Error en el servidor', error: error.message });
         }
     }
@@ -64,7 +66,7 @@ class ResultadoController {
             const datos = req.body;
 
             const query = await resultadoQueries.update(id, datos);
-            if (query) {
+            if (query.ok) {
                 console.log('Se logró actualizar el resultado: ' + id);
                 return res.status(200).json({ ok: true, data: query.data });
             } else {

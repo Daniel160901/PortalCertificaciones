@@ -6,6 +6,7 @@ import { cursoController } from '../controllers/curso.controllers.js';
 import { preguntaController } from '../controllers/pregunta.controllers.js';
 import { institucionController } from '../controllers/institucion.controllers.js';
 import { resultadoController } from '../controllers/resultado.controllers.js';
+import { relacionCertUsCoController } from '../controllers/relacionCertUsCo.controllers.js';
 
 export class Routes {
     /**
@@ -32,6 +33,7 @@ export class Routes {
         app.get('/find_examen', examenController.findOne);
         app.delete('/delete_examen/:id', examenController.delete);
         app.put('/update_examen/:id', examenController.update);
+        app.get('/find_examenPreguntas/:id', examenController.findExamenConPreguntas);
 
         //Rutas para CURSOS
         app.post('/create_curso', cursoController.create);
@@ -46,6 +48,7 @@ export class Routes {
         app.get('/find_preguntas', preguntaController.findAll);
         app.delete('/delete_pregunta/:id', preguntaController.delete);
         app.put('/update_pregunta/:id', preguntaController.update);
+        app.get('/find_preguntasExamen/:id', preguntaController.findPreguntasExamen);
 
         //Rutas para INSTITUCIONES
         app.post('/create_inst', institucionController.create);
@@ -61,5 +64,8 @@ export class Routes {
         app.delete('/delete_resultado/:id', resultadoController.delete);
         app.put('/update_resultado/:id', resultadoController.update);
 
+        //Relacion
+        app.get('/buscar', relacionCertUsCoController.findWithUser);
+        app.get('/folio', relacionCertUsCoController.findWithFolio);
     }
 }

@@ -81,5 +81,20 @@ class PreguntaController {
             return res.status(500).json({ ok: false, data: null, message: 'Error en el servidor' });
         }
     }
+
+    async findPreguntasExamen(req, res){
+        try {
+            const id_examen = req.params.id;
+            const query = await preguntaQueries.findPreguntasExamen(id_examen);
+            if(query.ok){
+                return res.status(200).json({ ok: true, data: query.data});
+            } else {
+                return res.status(400).json({ ok: false, data: null, message: 'Examen no encontrado.'});
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(403).json({ ok: false, data: null, message: 'Hubo un problema en el servidor.'});
+        }
+    }
 }
 export const preguntaController = new PreguntaController();

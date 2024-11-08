@@ -74,13 +74,30 @@ export class ExamenController {
 
             const query = await examenQueries.update(id, datos);
             if (query) {
-                console.log('Se logró actualizar el curso: ' + id);
+                console.log('Se logró actualizar el examen: ' + id);
                 return res.status(200).json({ ok: true, data: query.data, message: 'Se actualizó correctamente.' });
             } else {
                 return res.status(404).json({ ok: false, data: null, message: 'Examen no actualizado.' });
             }
         } catch (error) {
             return res.status(500).json({ ok: false, data: null, message: 'Error en el servidor backend', error });
+        }
+    }
+
+    async findExamenConPreguntas(req, res){
+        try {
+            const id_examen = req.params.id;
+            
+            const query = await examenQueries.findExamenConPreguntas(id_examen);
+            if (query.ok) {
+                console.log('Se logró encontrar el examen');
+                return res.status(200).json({ ok: true, data: query.data, message: 'El examen fue encontrado.' });
+            } else {
+                return res.status(404).json({ ok: false, data: null, message: 'Examen no encontrado.' });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(403).json({ ok: false, data: null, message: 'Hubo un problema en el servidor.'})
         }
     }
 }

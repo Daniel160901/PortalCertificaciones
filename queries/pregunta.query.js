@@ -74,5 +74,22 @@ class PreguntaQueries{
             return null;
         }
     }
+
+    //Obtener todas las preguntas de un examen
+    async findPreguntasExamen(id){
+        try {
+            const query = await PreguntaModel.findAll({
+                where: {id_examen: id}
+            });
+            if(query.length>0){
+                return {ok: true, data: query};
+            } else {
+                return { ok:false, data: null};
+            }
+        } catch (error) {
+            console.error(error);
+            return { ok: false, data: null, message: 'Hubo un problema en la query'};
+        }
+    }
 }
 export const preguntaQueries = new PreguntaQueries();

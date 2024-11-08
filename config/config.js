@@ -4,8 +4,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { Routes } from '../routes/routes.js';
 import { Database } from './database.js';
+import { Relaciones } from '../associations/associations.js';
 
 dotenv.config();
+Relaciones();
 
 class App {
     app = express.application;
@@ -41,7 +43,6 @@ class App {
         const connection = await this.db.connection();
         console.log(connection.message);
     }
-
     
 
 }

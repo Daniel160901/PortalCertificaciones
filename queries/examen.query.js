@@ -1,4 +1,5 @@
 import { ExamenModel } from "../models/examen.model.js";
+import { PreguntaModel } from "../models/pregunta.model.js";
 
 class ExamenQueries{
 
@@ -70,6 +71,32 @@ class ExamenQueries{
         } catch (error) {
             console.log('Error en la actualizacion del examen', error);
             return null;
+        }
+    }
+
+    //Obtener examen con todas sus preguntas
+    async findExamenConPreguntas(id){
+        try {
+            console.log(id);
+            
+            const query = await ExamenModel.findByPk(id, {
+                include: [{
+                    model: PreguntaModel,
+                    as: 'preguntas',
+                    required: true,
+                    attributes: {
+                        exclude: 'correcta'
+                    }
+                }]
+            });
+            if(query){
+                return { ok: true, data: query};
+            } else {
+                return { ok: false, data: null};
+            }
+        } catch (error) {
+            console.error(error);
+            return { ok: false, data: null, message: 'Ha habido un error en la query'};
         }
     }
 }

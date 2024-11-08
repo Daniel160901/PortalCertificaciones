@@ -6,12 +6,12 @@ class certificadoQueries {
         try {
             const query = await CertificadoModel.create(certificado);
             if(query){
-                return { ok: true, data: query};
+                return { ok: true, data: query, id: query.dataValues.id_certificado};
             } else {
                 return { ok: false, data: null}
             }
         } catch (error) {
-            console.log('Error al crear el certificado', error);
+            console.log('Error al crear el certificado, verificar información');
             return{ok: false, data: null};
         }
     }
@@ -39,7 +39,7 @@ class certificadoQueries {
                 return { ok: false, data: query};
             }
         } catch (error) {
-            console.log('No se pudo encontrar el certificado: ' + data.query);
+            console.log('No se pudo encontrar el certificado.');
             return { ok: false, data: null, message: 'No se pudo encontrar el certificado: ' + condition};
         }
     }

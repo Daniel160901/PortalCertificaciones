@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { DatabaseConfig } from "../config/database.js";
+import { ExamenModel } from "./examen.model.js";
 
 export class PreguntaModel extends Model{}
 
@@ -38,6 +39,14 @@ export class PreguntaModel extends Model{}
          correcta: {
             type: DataTypes.STRING,
             allowNull: false,
+         },
+         id_examen: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: ExamenModel,
+                key: 'id_examen'
+            }
          }
     }, {
         sequelize: DatabaseConfig,
